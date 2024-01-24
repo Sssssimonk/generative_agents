@@ -192,9 +192,9 @@ def GPT_request(prompt, gpt_parameter):
 
     # return response.choices[0].text
     generate_kwargs = {
-    "max_new_tokens" = gpt_parameter["max_tokens"],
-    "temperature" = gpt_parameter["temperature"],
-    "top_p" = gpt_parameter["top_p"]
+    "max_new_tokens" : gpt_parameter["max_tokens"],
+    "temperature" : gpt_parameter["temperature"],
+    "top_p" : gpt_parameter["top_p"]
     }
     response = pipe(prompt, generate_kwargs=generate_kwargs)
     return response
