@@ -48,12 +48,15 @@ def ChatGPT_single_request(prompt):
   temp_sleep()
 
   # this will return a chat completion object
-  completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}]
-  )
+  # completion = openai.ChatCompletion.create(
+  #   model="gpt-3.5-turbo",
+  #   messages=[{"role": "user", "content": prompt}]
+  # )
 
-  return completion["choices"][0]["message"]["content"]
+
+  #return completion["choices"][0]["message"]["content"]
+
+  return pipe(prompt)
 
 
 # ============================================================================
@@ -75,11 +78,12 @@ def ChatGPT_request(prompt):
   """
   # temp_sleep()
   try:
-    completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}]
-    )
-    return completion["choices"][0]["message"]["content"]
+    # completion = openai.ChatCompletion.create(
+    # model="gpt-3.5-turbo",
+    # messages=[{"role": "user", "content": prompt}]
+    # )
+    # return completion["choices"][0]["message"]["content"]
+    return pipe(prompt)
 
   except:
     print ("ChatGPT ERROR")
@@ -173,20 +177,27 @@ def GPT_request(prompt, gpt_parameter):
   """
   temp_sleep()
   try:
-    response = openai.Completion.create(
-                model=gpt_parameter["engine"],
-                prompt=prompt,
-                temperature=gpt_parameter["temperature"],
-                max_tokens=gpt_parameter["max_tokens"],
-                top_p=gpt_parameter["top_p"],
-                frequency_penalty=gpt_parameter["frequency_penalty"],
-                presence_penalty=gpt_parameter["presence_penalty"],
-                stream=gpt_parameter["stream"],
-                stop=gpt_parameter["stop"],)
+    # response = openai.Completion.create(
+    #             model=gpt_parameter["engine"],
+    #             prompt=prompt,
+    #             temperature=gpt_parameter["temperature"],
+    #             max_tokens=gpt_parameter["max_tokens"],
+    #             top_p=gpt_parameter["top_p"],
+    #             frequency_penalty=gpt_parameter["frequency_penalty"],
+    #             presence_penalty=gpt_parameter["presence_penalty"],
+    #             stream=gpt_parameter["stream"],
+    #             stop=gpt_parameter["stop"],)
 
 
 
-    return response.choices[0].text
+    # return response.choices[0].text
+    generate_kwargs = {
+    "max_new_tokens" = gpt_parameter["max_tokens"],
+    "temperature" = gpt_parameter["temperature"],
+    "top_p" = gpt_parameter["top_p"]
+    }
+    response = pipe(prompt, generate_kwargs=generate_kwargs)
+    return response
   except:
     print ("TOKEN LIMIT EXCEEDED")
     return "TOKEN LIMIT EXCEEDED"
